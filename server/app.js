@@ -6,6 +6,10 @@ const sockjs = require('sockjs');
 const app = new Koa();
 const terminalWS = sockjs.createServer();
 
+
+/**
+ * 不同的平台获取默认的 shell
+ */
 const getDefaultShell = () => {
   if (process.platform === 'darwin') {
     return process.env.SHELL || '/bin/bash';
@@ -22,8 +26,8 @@ terminalWS.on('connection', connectionIns => {
     name: 'xterm-color',
     cols: 80,
     rows: 30,
-    cwd: process.env.HOME,
-    env: {
+    cwd: process.env.HOME, // current workspace directory
+    env: {                 // 设置环境变量
       ...process.env,
       TERM: 'xterm-256color',
       COLORTERM: 'truecolor',
